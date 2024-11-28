@@ -1,0 +1,17 @@
+/* new stuff for sandbox */
+.your-div {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Layered shadow for depth */
+}
+
+table {
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px; /* Space inside cells */
+  text-align: left; /* Aligns text to the left */
+}
+th {
+  background-color: #f4f4f4; /* Light gray background for headers */
+}
