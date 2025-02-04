@@ -3,10 +3,16 @@ import axios from "axios";
 import { useState, useRef } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useParams } from "react-router";
-import health from "../assets/img/health.svg";
+import health from "../assets/img/Doctors.gif";
 import { ThreeCircles } from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 const AIQueries = () => {
+  const key = localStorage.getItem("accessToken");
+  console.log(key);
+  const navigate = useNavigate();
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const { AIType } = useParams();
   console.log(useParams());
   const [showPage, setRestPage] = useState(false);
@@ -60,7 +66,7 @@ const AIQueries = () => {
   };
 
   const handleLeftClick = () => {
-    queryNo > 0 ? subClick() : null;
+    queryNo > 0 ? subClick() : navigate("/");
   };
 
   const handleSubmitClick = () => {
@@ -79,10 +85,19 @@ const AIQueries = () => {
     console.log(formData);
     try {
       console.log("clicked");
+      console.log(key);
       const response = await axios.post(
-        "https://wellmania-backend.vercel.app/api/v1/prediction",
-        formData
+        `${baseURL}/api/v1/prediction/predict_sleep_stress`,
+
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${key}`,
+            "Content-Type": `application/Json`,
+          },
+        }
       );
+
       setAIResponse(response.data.data);
       if (response) {
         setRestPage(true);
@@ -99,28 +114,21 @@ const AIQueries = () => {
     <div className="h-[100svh] pb-[.5rem] flex flex-col  justify-between">
       {!showPage ? (
         <>
-          <div className="flex w-full items-center">
-            <div className="bg-black w-[12%] h-[40px] rounded-lg flex justify-center items-center my-[1rem] mx-[1rem] ">
-              <FaArrowLeft
-                onClick={() => handleLeftClick()}
-                className="text-white text-[25px] "
-              />
+          <div className="flex w-full items-center justify-">
+            <div
+              onClick={() => handleLeftClick()}
+              className="bg-black w-[12%] h-[40px] rounded-lg flex justify-center items-center my-[1rem] mx-[1rem] cursor-pointer"
+            >
+              <FaArrowLeft className="text-white text-[25px]" />
             </div>
             <p className="text-[1rem] w-[60%] text-center select-none">
               {1 + queryNo} of {Query.length}
             </p>
-            {/* {queryNo > 0 && (
-          <div
-            onClick={() => handleRightClick()}
-            className="bg-black w-[12%] h-[40px] rounded-lg flex justify-center items-center m-[.7rem] mx-[1rem] "
-          >
-            <FaArrowRight className="text-white text-[25px] " />
-          </div>
-        )} */}
+            <div></div>
           </div>
 
           <div className="my-[.5rem] mx-[1rem] flex flex-col ">
-            <div className="bg-slate-200 w-[100%] h-[9px] rounded-xl flex">
+            <div className="bg-slate-200 w-[100%] h-[9px] rounded-xl flex ">
               {queryNo === 0 ? (
                 <div className="w-[0%] h-[9px] bg-orange-500 rounded-xl"></div>
               ) : queryNo === 1 ? (
@@ -277,7 +285,7 @@ const AIQueries = () => {
                     {Query[queryNo].name === "diastolicBP" ? (
                       <button
                         onClick={handleSubmit}
-                        className="placeholder:text-black bg-slate-100 focus:border-[1px] py-[1rem] px-[2rem] rounded-2xl text-[1.5rem] shadow-md focus:shadow-none mt-[2rem] text-center flex justify-center items-center"
+                        className="placeholder:text-black bg-slate-100 focus:border-[1px] py-[1rem] px-[2rem] rounded-2xl text-[1.5rem] shadow-md focus:shadow-none mt-[2rem] text-center flex justify-center items-center text-p"
                       >
                         {loading ? (
                           <ThreeCircles
@@ -312,39 +320,38 @@ const AIQueries = () => {
           </div>
         </>
       ) : (
-        <div className="grid place-content-center h-[100vh] md:bg-slate-200">
-          <div className="flex flex-col  items-center lg:w-[700px] py-8 md:bg-white rounded-2xl md:your-div cursor-pointer">
-            <img src={health} className="w-[350px] " />
-            <p className="font-bold text-[1.5rem] ">Your Result is out! </p>
-            <table className="w-[300px] md:w-[280px]  lg:w-[550px] text-[.7rem] lg:text-[.8rem] overflow-scroll  mt-[20px] ">
-              <tbody>
-                <tr>
-                  <td>
-                    {AIType === "sleep" ? "Sleep disorder" : "Stress Level"}
+        <div className="grid place-content-center h-[100vh] bg-white">
+          <div className="flex flex-col  items-center lg:w-[700px] py-8 bg-white rounded-2xl md:your-div cursor-pointer">
+            <img src={health} className="w-[400px] h-[auto] " />
+            <p className="font-bold text-[1.5rem]  -mt-16">Your Result is out! </p>
+            <table className="w-[300px] md:w-[280px]  lg:w-[750px] text-[.7rem] lg:text-[.8rem] overflow-scroll  mt-[20px] ">
+              <tbody className="flex md:flex-row flex-col gap-8 justify-between" >
+                <tr className="flex flex-col items-center  gap-4 md:w-[50%] ">
+                  <td className="font-bold text-[1rem]">
+                    {/* {!AIType === "sleep" ? "Sleep disorder" : "Stress Level"} */}
+                    Diagnose
                   </td>
-                  <td>
-                    {AIType == "sleep"
-                      ? AiResponse.sleep_disorder
-                      : AiResponse.stress_level}
+                  <td className="text-center">
+                    <p>Your stress level is {AiResponse["Stresslevel"]}</p>
                   </td>
                 </tr>
-                <tr>
-                  <td>Recommendation(s)</td>
-                  <td>
-                    <ul className="flex flex-col pl-4">
+                <tr className="flex justify-center flex-col items-center gap-4 md:w-[50%]">
+                  <td className="font-bold text-[1rem]">Recommendation(s)</td>
+                  <td className="flex flex-col ">
+                    <ul className="flex flex-col pl-4 justify-center text-center md:text-ce  ">
                       <li
                         className={`${
-                          AiResponse.recommendations[0] ? "list-disc" : ""
-                        }`}
-                        >
-                        <p>{AiResponse?.recommendations[1]}</p>
+                          AiResponse?.Recommendations[1] ? "list-disc" : ""
+                        } `}
+                      >
+                        <p>{AiResponse?.Recommendations[1]}</p>
                       </li>
                       <li
                         className={`${
-                          AiResponse.recommendations[1] ? "list-disc" : ""
-                        }`}
+                          AiResponse.Recommendations[2] ? "list-disc" : ""
+                        } `}
                       >
-                        {AiResponse?.recommendations[2]}
+                        {AiResponse?.Recommendations[2]}
                       </li>
                       {/* <li
                         className={`${
@@ -371,7 +378,7 @@ const AIQueries = () => {
               </div>
             </div> */}
             <Link to="/">
-              <button className="placeholder:text-black bg-[#ff8225] text-white hover:bg-black py-[.8rem] mt-[30px]  px-[1.5rem] rounded-2xl text-[.8rem] your-div">
+              <button className="placeholder:text-black bg-[#ff8225] text-white hover:bg-black py-[.5rem] mt-[30px]  px-[1.5rem] rounded-md text-[.7rem] your-div">
                 Go back home
               </button>
             </Link>

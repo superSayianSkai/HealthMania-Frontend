@@ -18,14 +18,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: "mRegular";
+  user-select: none;
 }
 
 :root {
-  --primaryBody-color: #f4f1e6;
+  --primaryBody-color: hsl(224, 50%, 98%);
   --primaryText-color: black;
   --secondaryText-color: white;
   --secondaryBody-color: black;
@@ -33,15 +30,19 @@ body {
   --tertiary-color: #ff8225;
   --tertiaryText-color: #ff8225;
 }
+body {
+  font-family: "mRegular";
+  background-color: var(--primaryBody-color);
+}
 
 /* .box-shadow {
   box-shadow: 0 0 6px 1px #f5f5f5;
 } */
+
 .box-shadow {
   background-color: white;
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
 }
 
 .purple {
@@ -76,7 +77,7 @@ body {
 
 /* Add custom arrow */
 .custom-select::after {
-  content: '▼'; /* Custom arrow symbol */
+  content: "▼"; /* Custom arrow symbol */
   font-size: 1.5rem;
   color: #333;
   position: absolute;
@@ -89,6 +90,17 @@ body {
 .custom-select select:focus {
   box-shadow: none;
 }
+
+/* Auth transition start */
+.form-container {
+  transition: all 0.6s ease-in-out;
+}
+
+.toggle-container {
+  z-index: 9;
+  transition: transform 0.6s ease-in-out;
+}
+/*Auth transition ends */
 
 @layer base {
   :root {
@@ -154,5 +166,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-

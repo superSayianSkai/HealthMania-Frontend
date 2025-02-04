@@ -1,62 +1,59 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import NotificationPage from "./pages/NotificationPage";
-import MyPage from "./pages/MyPage";
-import AiPage from "./pages/AiPage";
-import NavRouter from "./route/NavRouter";
-import AIQuery from "./component/AIQueries";
-import WorkoutPage from "./pages/WorkoutPage";
-import ExperimentPage from "./sandbox/ExperimentPage";
+  import { createBrowserRouter, RouterProvider } from "react-router-dom";
+  import NotificationPage from "./pages/NotificationPage";
+  import MyPage from "./pages/MyPage";
+  import AiPage from "./pages/AiPage";
+  import NavRouter from "./route/NavRouter";
+  import AIQuery from "./component/AIQueries";
+  import WorkoutPage from "./pages/WorkoutPage";
+  import Auth from "./pages/Auth";
+  import HomePage from "./pages/HomePage";
+  import ResetPassword from "./pages/ResetPassword";
+  import GetPasswordOTP from "./pages/GetPasswordOTP";
+  import ProtectedRoute from "./component/ProtectedRoute";
+  const App = () => {
+    const router = createBrowserRouter([
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "signIn",
+        element: <Auth />,
+      },
+      {
+        path: "getpasswordotp",
+        element: <GetPasswordOTP />,
+      },
+      {
+        path: "resetpassword",
+        element: <ResetPassword />,
+      },
+      {
+        path: "myPage",
+        element: (
+          <NavRouter>
+            <MyPage />
+          </NavRouter>
+        ),
+      },
+      // ✅ Protect all AI-related routes
+      {
+        path: "ai-page",
+        element: <ProtectedRoute />, // ✅ Wrap these in `ProtectedRoute`
+        children: [
+          {
+            path: ":aiType",
+            element: <AiPage />,
+          },
+          {
+            path: "ai-query/:ai-type",
+            element: <AIQuery />,
+          },
+        ],
+      },
+    ]);
 
-const App = () => {
-  const router = createBrowserRouter([
-    // {
-    //   path: "",
-    //   element: <ExperimentPage />,
-    // },
-    {
-      path: "/",
-      element: (
-        <NavRouter>
-          <HomePage />
-        </NavRouter>
-      ),
-    },
-    {
-      path: "aiPage/:AIType",
-      element: (
-        <NavRouter>
-          <AiPage />
-        </NavRouter>
-      ),
-    },
-    {
-      path: "notificationPage",
-      element: (
-        <NavRouter>
-          <NotificationPage />
-        </NavRouter>
-      ),
-    },
-    {
-      path: "myPage",
-      element: (
-        <NavRouter>
-          <MyPage />
-        </NavRouter>
-      ),
-    },
-    {
-      path: "Aipage/aiQuery/:AIType",
-      element: <AIQuery />,
-    },
-    {
-      path: "/workout",
-      element: <WorkoutPage />,
-    },
-  ]);
+    return <RouterProvider router={router} />;
+  };
 
-  return <RouterProvider router={router} />;
-};
-
-export default App;
+  export default App;

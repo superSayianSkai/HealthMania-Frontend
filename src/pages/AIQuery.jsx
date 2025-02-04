@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 const AIQuery = () => {
   console.log(useParams())
   return (
-    <div>
+    <div className="]">
       <AiQueries /> 
     </div>
   );

@@ -1,0 +1,7 @@
+toggle profile.
+  WHY AM I MAKING THE TOGGLE???? 
+  - I want the hook to control the toggle for profile and dark theme.
+  - I want 
+I will connect the models to the frontend.
+I will make authentication and authorization for the website.
+    
