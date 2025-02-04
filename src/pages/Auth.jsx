@@ -282,15 +282,15 @@ const Auth = () => {
         </div>
 
         {/* Sign Up Form */}
-        <div className="w-[50%] md:w-[40%] px-6 md:p-12 flex ">
+        <div className="w-[50%] md:w-[40%] px-6 md:p-12 flex bg-white">
           <form
-            className="w-[100%] md:w-[50%] justify-center flex flex-col gap-4 m-2"
+            className="w-[100%] md:w-[50%] justify-center flex flex-col gap-4 m-2 bg-white"
             onSubmit={handleSignUpSubmit}
           >
             <h2 className="text-[2rem]">Sign Up</h2>
 
             {/* Progress bar */}
-            <div className=" bg-gray-200 rounded-full h-2.5 ">
+            <div className=" bg-white rounded-full h-2.5 ">
               <div
                 className="bg-orange-500 h-2.5 rounded-full transition-all duration-300 ease-in-out"
                 style={{
