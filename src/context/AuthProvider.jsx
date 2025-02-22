@@ -1,27 +1,26 @@
-import { createContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const baseURL = import.meta.env.VITE_BASE_URL;
-  const [key, setKey] = useState();
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const [stillLoggedIn, setStillLoggedIn] = useState(
-    JSON.parse(localStorage.getItem("loggedIn")) || false
-  );
-  // const isTokenExpired = (token) => {
-  //   try {
-  //     const payload = JSON.parse(atob(token).split(".")[1]);
-  //     const result = Date.now() >= payload.exp * 1000;
-  //     return result;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return true;
-  //   }
-  // };
+  const getStoredLoginState = () => {
+    try {
+      return JSON.parse(localStorage.getItem("loggedIn")) || false;
+    } catch (error) {
+      console.error("LocalStorage access error:", error);
+      return false;
+    }
+  };
+
+  const [stillLoggedIn, setStillLoggedIn] = useState(getStoredLoginState);
+
   console.log(stillLoggedIn);
 
   useEffect(() => {
@@ -30,10 +29,11 @@ export const AuthProvider = ({ children }) => {
     } else {
       console.log("token has expired");
     }
-  });
+  }, []);
   //this is me getting a new key
   const login = async (email, password) => {
     setLoading(true);
+    setErrorMessage("");
     try {
       const response = await axios.post(`${baseURL}/api/v1/auth/signin`, {
         email,
@@ -48,7 +48,8 @@ export const AuthProvider = ({ children }) => {
         setStillLoggedIn(true);
       }
     } catch (error) {
-      console.error(error);
+      setErrorMessage(error.response.data.message);
+      console.log(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -62,6 +63,7 @@ export const AuthProvider = ({ children }) => {
       gender,
       age: String(age), // Ensure age is passed as a string
     };
+    setError(false);
 
     console.log("Sending data:", data); // Add logging to see the data you're sending
     try {
@@ -89,9 +91,17 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       setLoading(false);
       // Handle errors (Error)
+
       if (error.response) {
         console.error("Error status:", error.response.status);
         console.error("Error response data:", error.response.data);
+      }
+      if (
+        error.response.data.message ===
+        "Password must be 8-15 characters long and contain at least one lowercase letter, one uppercase letter, one number and one special character!"
+      ) {
+        console.log("hey ");
+        setError(true);
       } else {
         console.error("Error message:", error.message);
       }
@@ -102,12 +112,29 @@ export const AuthProvider = ({ children }) => {
     console.log("Successful");
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("profilePicture");
     setStillLoggedIn(false); // Manually update state to trigger re-render
+  };
+
+  const googleAuth = (e) => {
+    e.preventDefault();
+    console.log("hey");
+    window.location.href = `${baseURL}/api/v1/auth/signin-with-google`; // Opens the link in the browser
   };
 
   return (
     <AuthContext.Provider
-      value={{ stillLoggedIn, loading, key, login, signUp, LogOut, setLoading }}
+      value={{
+        stillLoggedIn,
+        loading,
+        login,
+        signUp,
+        LogOut,
+        setLoading,
+        error,
+        errorMessage,
+        googleAuth,
+      }}
     >
       {children}
     </AuthContext.Provider>

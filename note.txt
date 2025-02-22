@@ -1,7 +1,19 @@
-toggle profile.
-  WHY AM I MAKING THE TOGGLE???? 
-  - I want the hook to control the toggle for profile and dark theme.
-  - I want 
-I will connect the models to the frontend.
-I will make authentication and authorization for the website.
-    
+Todos
+-Integrate the other models
+-error notification for authentication and authorixation 
+-i want to work on disallowing users to put in ridiculous values, i.e work on the range of output
+-i also have to find out a way to calculate users BMI and put it in range like NORMAL WEIGHT. Obese
+
+
+-------- today's Goals-----------
+-I have to integrate the right data structure for the models
+- i need to fix the height of the modelOption
+- i need to fix the link problem
+- i need to add an indication to what model is currently being worked on 
+- inconsitency in cols api
+-fix the image at result
+
+
+---things left to implement----
+- Ayomide need to optimize model's result
+-Recommendation page

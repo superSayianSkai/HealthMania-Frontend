@@ -1,15 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
-@font-face {
-  font-family: "m800";
-  src: url("./assets/Font/montserrat-v26-latin/montserrat-v26-latin-800.woff2");
-}
-/* regular montserrat */
-@font-face {
-  font-family: "mRegular";
-  src: url("./assets/Font/montserrat-v26-latin/montserrat-v26-latin-regular.woff2");
-}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,10 +9,10 @@
   padding: 0;
   box-sizing: border-box;
   user-select: none;
+  font-family: "Nunito", serif;
 }
 
 :root {
-  --primaryBody-color: hsl(224, 50%, 98%);
   --primaryText-color: black;
   --secondaryText-color: white;
   --secondaryBody-color: black;
@@ -31,7 +21,6 @@
   --tertiaryText-color: #ff8225;
 }
 body {
-  font-family: "mRegular";
   /* background-color: var(--primaryBody-color); */
 }
 
@@ -47,12 +36,6 @@ body {
 
 .purple {
   background: linear-gradient(to bottom, #e0bbff, #d1a3ff);
-}
-
-.montserrat {
-  font-family: "myFont";
-  font-optical-sizing: auto;
-  font-weight: 100;
 }
 
 /* select css */

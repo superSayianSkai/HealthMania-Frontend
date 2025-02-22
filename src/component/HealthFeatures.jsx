@@ -1,47 +1,88 @@
 import { Link } from "react-router-dom";
+
 const HealthFeatures = ({
   title,
   p1,
   p2,
   img,
   width,
-  right,
-  bottom,
-  link,
+  mainLink,
   color,
+  colspan,
+  bottom,
+  positionRight,
+  positionBottom,
 }) => {
   return (
     <div
-      style={{ backgroundColor: color }}
-      className="relative box-shadow flex justify-between  cursor-pointer  rounded-[2%] overflow-hidden   "
+      className={`health-feature relative overflow-hidden rounded-[2%] shadow-md group cursor-pointer ${
+        colspan === 3
+          ? "md:col-span-3"
+          : colspan === 2
+          ? "md:col-span-2"
+          : "md:col-span-1"
+      } transform transition-all duration-300 hover:scale-105 hover:shadow-xl`}
     >
-      <div className="flex flex-col gap-[.75rem] w-[100%] justify-between p-2 m-2">
-        <div>
-          <div className="flex justify-between items-center">
-            <h2 className="text-[2rem] md:text-[1.6rem] font-bold">{title}</h2>
-            {/* <img src={arrow} className="w-[1.5rem] h-auto opacity-[70%]" /> */}
-          </div>
-          <div className="mt-[-.2rem]">
-            <p className="text-[.7rem] md:text-[.8rem] opacity-[60%]">{p2}</p>
-          </div>
+      <Link to={mainLink} className="">
+        <div className="">
+          <img
+            src={img}
+            alt={title}
+            width={width}
+            className={`transition-transform duration-10000 ease-in-out transform hover:scale-110 absolute ${
+              positionRight === 0
+                ? "bottom-[-60px]"
+                : positionRight === 1
+                ? "bottom-[0px] sm:bottom-[-20px] md:bottom-[-350px]"
+                : positionBottom === 2
+                ? "bottom-[-20px] md:bottom-[-320px]"
+                : positionRight === 3
+                ? "bottom-[-35px]"
+                : ""
+            }`}
+          />
         </div>
+        <div className="absolute inset-0 animated-gradient"></div>
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="w-20 h-20 border-4 border-orange-500 rounded-full animate-ping"></div>
+        </div>
+        <div className="absolute bottom-0 left-0 p-4 w-full">
+          <h2 className="text-[2rem] font-bold text-white mb-2 drop-shadow-lg group-hover:text-orange-500">
+            {title}
+          </h2>
+          <p className="text-sm text-white opacity-90 mb-4 drop-shadow">{p2}</p>
+        </div>
+        <style>{`
+        @keyframes gradient-animation {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
 
-        <Link to={link}>
-          <div className="cursor-pointer mb-8">
-            <i className="bi bi-arrow-right text-white rounded-full text-[1.8rem] md:text-[1.2rem] py-2 px-3 bg-orange-500 hover:bg-black"></i>
-          </div>
-        </Link>
-      </div>
-      <img
-        src={img}
-        style={{
-          position:"absolute",
-          right:right,
-          bottom:bottom,
-          width: width,
-        }}
-        className=""
-      />
+        .animated-gradient {
+          background: linear-gradient(270deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
+          background-size: 200% 200%;
+          animation: gradient-animation 8s ease infinite;
+        }
+
+        @keyframes ping {
+          75%, 100% {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+
+        .health-feature .animate-ping {
+          animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+      `}</style>
+      </Link>
     </div>
   );
 };

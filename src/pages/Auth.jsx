@@ -13,7 +13,8 @@ const Auth = () => {
   const prevLocation = location.state?.from.pathname || "/";
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { login, signUp, stillLoggedIn } = useContext(AuthContext);
+  const { login, signUp, stillLoggedIn, error, errorMessage, googleAuth } =
+    useContext(AuthContext);
   const [password, setPassword] = useState(false);
 
   const [isSignInActive, setIsSignInActive] = useState(true);
@@ -67,23 +68,15 @@ const Auth = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      try {
-        // Start loading before making the request
-        setLoading(true);
-        // Make sure you await the signUp function
-        await signUp(
-          signUpData.email,
-          signUpData.password,
-          signUpData.fullName,
-          signUpData.gender,
-          signUpData.age
-        );
+      setLoading(true);
 
-        // After sign up is successful, you can do any follow-up, such as redirecting the user.
-      } catch (error) {
-        console.error("Error during sign-up:", error);
-        // Optionally, set loading to false here in case of error
-      }
+      await signUp(
+        signUpData.email,
+        signUpData.password,
+        signUpData.fullName,
+        signUpData.gender,
+        signUpData.age
+      );
     }
     setLoading(false);
   };
@@ -118,6 +111,7 @@ const Auth = () => {
       case "gender":
         return (
           <select
+            required
             name={name}
             value={signUpData[name]}
             onChange={handleSignUpChange}
@@ -126,12 +120,12 @@ const Auth = () => {
             <option value="">Select gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Other</option>
           </select>
         );
       case "age":
         return (
           <select
+            required
             name={name}
             value={signUpData[name]}
             onChange={handleSignUpChange}
@@ -153,10 +147,15 @@ const Auth = () => {
               name={name}
               value={signUpData[name]}
               onChange={handleSignUpChange}
+              placeholder="example12$"
               className="text-[.8rem] outline-none border-[1px] border-gray-200 rounded-md p-2 w-full "
               required
             />
-            <p className="text-[.6rem] mt-3 italic">
+            <p
+              className={`text-[.6rem] mt-3 italic ${
+                error && "text-red-500 animate-bounce underline"
+              }`}
+            >
               Password must be 8-15 characters long and contain at least one
               lowercase letter, one uppercase letter, one number and one special
               character!
@@ -173,6 +172,17 @@ const Auth = () => {
               ></i>
             )}
           </div>
+        );
+      case "email":
+        return (
+          <input
+            required
+            type="email"
+            name={name}
+            value={signUpData[name]}
+            onChange={handleSignUpChange}
+            className="text-[.8rem] outline-none border-[1px] border-gray-200 rounded-md p-2 w-full"
+          />
         );
 
       default:
@@ -209,9 +219,11 @@ const Auth = () => {
               <label className="text-[.8rem] font-bold flex flex-col gap-2">
                 Email
                 <input
+                  type="email"
                   name="email"
                   value={signInData.email}
                   onChange={handleSignInChange}
+                  required
                   className="text-[.8rem] outline-none border-[1px] border-gray-200 rounded-md p-2 focus:bg-white"
                 />
               </label>
@@ -224,19 +236,26 @@ const Auth = () => {
                   value={signInData.password}
                   onChange={handleSignInChange}
                   className="text-[.8rem] outline-none border-[1px] border-gray-200 rounded-md p-2 z-[30] focus:bg-white"
+                  required
                 />
                 {password ? (
                   <i
                     onClick={handlePassword}
-                    className="bi bi-eye-slash absolute right-1 -bottom-2 transform -translate-y-1/2 z-[60] bg-white cursor-pointer w-[40px] text-[1rem]"
+                    className="bi bi-eye-slash absolute right-1 -bottom-2 transform -translate-y-1/2 z-[60] cursor-pointer w-[40px] text-[1rem]"
                   ></i>
                 ) : (
                   <i
                     onClick={handlePassword}
-                    className="bi bi-eye absolute right-1 -bottom-2 transform -translate-y-1/2 z-[60] bg-white cursor-pointer w-[40px] text-[1rem]"
+                    className="bi bi-eye absolute right-1 -bottom-2 transform -translate-y-1/2 z-[60] cursor-pointer w-[40px] text-[1rem]"
                   ></i>
                 )}
               </label>
+              {errorMessage && (
+                <p className="text-[.7rem] text-red-500 animate-bounce">
+                  {errorMessage + "!!!"}
+                </p>
+              )}
+
               <Link to="/getPasswordOTP" className="w-[50%]">
                 <p className="text-[.7rem] hover:underline cursor-pointer ">
                   Forgot password?{" "}
@@ -263,7 +282,10 @@ const Auth = () => {
                 </button>
 
                 <div className="text-[.8rem] text-center">OR</div>
-                <button className="border-[1px] border-gray-500 p-3 rounded-md text-[.8rem] flex justify-center items-center gap-2 font-bold hover:bg-gray-100">
+                <button
+                  onClick={googleAuth}
+                  className="border-[1px] border-gray-500 p-3 rounded-md text-[.8rem] flex justify-center items-center gap-2 font-bold hover:bg-gray-100"
+                >
                   <img src={google} className="w-[15px] h-[auto]" />
                   Sign In with google
                 </button>

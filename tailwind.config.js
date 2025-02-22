@@ -4,10 +4,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontFamily: {
-        m800: ["m800", "sans-serif"],
-        mRegular: ["mRegular", "sans-serif"],
-      },
+      // fontFamily: {
+      //   m800: ["m800", "sans-serif"],
+      //   mRegular: ["mRegular", "sans-serif"],
+      // },
 
       borderRadius: {
         lg: "var(--radius)",
