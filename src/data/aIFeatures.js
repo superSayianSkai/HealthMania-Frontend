@@ -620,6 +620,8 @@ export const aiFeatures = {
             question: "What is your Weight?",
             unit: "kg",
             type: "input",
+            min: "30",
+            max: "200",
           },
           {
             id: 6,
@@ -627,6 +629,8 @@ export const aiFeatures = {
             question: "What is your Height?",
             unit: "meters",
             type: "input",
+            min: "50",
+            max: "250",
           },
           {
             id: 7,

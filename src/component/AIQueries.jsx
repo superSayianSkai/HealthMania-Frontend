@@ -1,10 +1,11 @@
 import { aiFeatures } from "@/data/aIFeatures";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
-import health from "../assets/img/Doctors.gif";
+
 import { ThreeCircles } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import ResultPage from "./ResultPage";
 const AIQueries = () => {
   const baseURL = import.meta.env.VITE_BASE_URL;
   let { id, aiType, subAiType } = useParams();
@@ -517,82 +518,7 @@ const AIQueries = () => {
           </div>
         </>
       ) : (
-        <div className="grid place-content-center h-[100vh] bg-white ">
-          <div className="flex flex-col  items-center lg:w-[700px] py-8 bg-white rounded-2xl md:your-div cursor-pointer ">
-            <img src={health} className="w-[400px] h-[auto] " />
-            <p className="font-bold text-[1.5rem]  -mt-16">
-              Your Result is out!{" "}
-            </p>
-            <table className="w-[300px] md:w-[280px]  lg:w-[750px] text-[.7rem] lg:text-[.8rem] overflow-scroll  mt-[20px] ">
-              <tbody className="flex md:flex-row flex-col gap-8 justify-between">
-                <tr className="flex flex-col items-center  gap-4 md:w-[50%] ">
-                  <td className="font-bold text-[1rem]">
-                    {/* {!AIType === "sleep" ? "Sleep disorder" : "Stress Level"} */}
-                    Diagnose
-                  </td>
-                  {
-                    subAiType === "calorieLevel" ? (
-                      <td className="text-center">
-                        <p>Calorie level {AiResponse.data}</p>
-                      </td>
-                    ) : (
-                      <td className="text-center">
-                        <p>Your stress level is {AiResponse["Stresslevel"]}</p>
-                      </td>
-                    )
-                    /* <ul className="flex flex-col pl-4 justify-center text-center md:text-ce  "> */
-                  }
-                </tr>
-                <tr className="flex justify-center flex-col items-center gap-4 md:w-[50%]">
-                  <td className="font-bold text-[1rem]">Recommendation(s)</td>
-                  <td className="flex flex-col ">
-                    <p>{AiResponse.Recommendations || AiResponse.data}</p>
-
-                    {/* <li
-                        className={`${
-                          AiResponse?.Recommendations[0] ? "list-disc" : ""
-                        } `}
-                      >
-                        <p>{AiResponse?.Recommendations[1]}</p>
-                      </li> */}
-                    {/* <li
-                        className={`${
-                          AiResponse.Recommendations[2] ? "list-disc" : ""
-                        } `}
-                      >
-                        {AiResponse?.Recommendations[2]}
-                      </li> */}
-                    {/* <li
-                        className={`${
-                          AiResponse.recommendations[2] ? "list-disc" : ""
-                        }`}
-                      >
-                        {AiResponse?.recommendations[2]}
-                      </li> */}
-                    {/* </ul> */}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            {/* <div className="flex flex-col  w-[500px] justify-around gap-2">
-              <div className="w-[100%px] py-2 px-4 rounded-2xl text-center">
-                <p className="font-bold text-[.9rem]">Sleep Disorder</p>
-                <p className="text-[.8rem]">Apania</p>
-              </div>
-              <div className="w-[100%] py-2 px-4 rounded-2xl text-center">
-                <p className="font-bold text-[.9rem]">Recommendation</p>
-                <p className="text-[.8rem]">
-                  Hey, we suggest you get a good sleep tonight.
-                </p>
-              </div>
-            </div> */}
-            <Link to="/">
-              <button className="placeholder:text-black bg-[#ff8225] text-white hover:bg-black py-[.5rem] mt-[30px]  px-[1.5rem] rounded-md text-[.7rem] your-div">
-                Go back home
-              </button>
-            </Link>
-          </div>
-        </div>
+        <ResultPage AiResponse={AiResponse} subAiType={subAiType} />
       )}
     </div>
   );
