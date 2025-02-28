@@ -19,7 +19,7 @@ const AIQueries = () => {
   const [queryNo, setQueryNo] = useState(0);
   const [queryNoArray, setqueryNoArray] = useState([]);
   const [formData, setFormData] = useState(
-    aiType === "sleep-check"
+    subAiType === "sleep-check"
       ? {
           gender: "",
           occupation: "",
@@ -98,7 +98,7 @@ const AIQueries = () => {
           active: "",
         }
   );
-
+  console.log(aiType);
   let IDS = {
     queryId: id,
     keyId: id,
