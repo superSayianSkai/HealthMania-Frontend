@@ -21,7 +21,7 @@ const AIQueries = () => {
   const [formData, setFormData] = useState(
     subAiType === "sleep-check"
       ? {
-          gender: "",
+          gender: [],
           occupation: "",
           sleepDuration: "",
           qualityOfSleep: "",
@@ -177,20 +177,21 @@ const AIQueries = () => {
         bmiCategory = "Obesity";
       }
 
-      setFormData((prev) => ({
-        ...prev,
-        bmiCategory: bmiCategory,
-      }));
+      if (aiType === "sleep-check" || aiType === "stress-check") {
+        setFormData((prev) => ({
+          ...prev,
+          bmiCategory: bmiCategory,
+        }));
+      } else if (aiType === "gluco-Sense") {
+        setFormData((prev) => ({
+          ...prev,
+          bmi: bmi,
+        }));
+      }
     }
   }, [weight, height]);
 
   const handleInput = (e) => {
-    //do i create regex variable here in the function
-    // i want regex to handle the input of the user and make sure it doesn't allow the users to give stupid input
-    //i want to check for things like negative numbers, symbols, string where the should be string, nuumber were there should be number
-    //avoid space in some input
-    // const regex=
-
     const { name, value } = e.target;
 
     // Validate weight if it's the weight field
@@ -225,10 +226,15 @@ const AIQueries = () => {
     }
 
     // Update the form data state
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => {
+      if (prevData.hasOwnProperty(e.target.name)) {
+        return {
+          ...prevData,
+          [e.target.name]: e.target.value,
+        };
+      }
+      return prevData; // Ensure state is always returned
+    });
 
     // Manually trigger reportValidity() to show the validation message
     inputRef.current.reportValidity();
@@ -244,6 +250,7 @@ const AIQueries = () => {
     setqueryNoArray((prev) => [...prev, queryNo]);
   }, []);
   console.log(queryNoArray);
+
   const handleButtonClick = (e) => {
     e.preventDefault();
     addClick();
@@ -337,12 +344,12 @@ const AIQueries = () => {
           </div>
           <div className="flex w-full items-center justify-center"></div>
 
-          <div className="mb-5 flex flex-col sm:shadow-2xl overflow-hidden  md:w-[550px] sm:rounded-xl  justify-between">
+          <div className="mb-5 flex flex-col sm:shadow-2xl overflow-hidden  md:w-[550px] md:rounded-xl  justify-between">
             <div className="bg-slate-200 w-[100%] h-[7px] sm:rounded-md flex ">
               <div className="bg-slate-200 w-[100%] h-[7px] rounded-md flex">
                 <div
                   className="h-[7px] bg-orange-500 md:rounded-xl"
-                  style={{ width: `${(queryNo / Query.length) * 110}%` }}
+                  style={{ width: `${(queryNo / Query.length) * 120}%` }}
                 ></div>
               </div>
             </div>
@@ -362,11 +369,11 @@ const AIQueries = () => {
                         {Query[queryNo].options[0]}
                       </button>
                       <button
-                        value={Query[queryNo].options[1]}
+                        value={Query[queryNo].values[0]}
                         onClick={handleButtonClick}
                         className="text-white  bg-orange-500 focus:border-[1px] py-[1rem] px-[2rem] rounded-2xl text-[1.5rem] shadow-md focus:shadow-none hover:bg-black"
                       >
-                        {Query[queryNo].options[1]}
+                        value={Query[queryNo].values[1]}
                       </button>
                     </div>
                   </form>
@@ -383,11 +390,16 @@ const AIQueries = () => {
                           name={Query[queryNo].name}
                           ref={inputRef}
                           className="text-black bg-slate-100 focus:border-[1px] py-[1rem] px-[2rem] rounded-2xl text-[1.5rem] shadow-md focus:shadow-none hover:bg-slate-200 text-center"
-                          onClick={handleInput}
+                          onChange={handleInput}
                           required
                         >
                           {Query[queryNo].options.map((option, index) => (
-                            <option key={index} value={option}>
+                            <option
+                              key={index}
+                              value={
+                                index === 0 ? "" : Query[queryNo].values[index]
+                              }
+                            >
                               {option}
                             </option>
                           ))}

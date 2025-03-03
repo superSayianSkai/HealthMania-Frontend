@@ -1,19 +1,29 @@
 Todos
 -Integrate the other models
--error notification for authentication and authorixation 
+-error notification for authentication and authorixation
 -i want to work on disallowing users to put in ridiculous values, i.e work on the range of output
 -i also have to find out a way to calculate users BMI and put it in range like NORMAL WEIGHT. Obese
-
 
 -------- today's Goals-----------
 -I have to integrate the right data structure for the models
 - i need to fix the height of the modelOption
 - i need to fix the link problem
-- i need to add an indication to what model is currently being worked on 
+- i need to add an indication to what model is currently being worked on
 - inconsitency in cols api
 -fix the image at result
-
 
 ---things left to implement----
 - Ayomide need to optimize model's result
 -Recommendation page
+
+--set a value for the select options
+--set a default for select
+---improve the UI
+
+---things to fix March 3rd
+*sign in and sign up with google
+*forget password
+*the features
+**try to disable the button of the buttons so they don't submit twice when the app is trying to submit
+**fix the responsiveness of the models
+//  
