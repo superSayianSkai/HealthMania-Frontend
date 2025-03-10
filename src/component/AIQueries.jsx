@@ -149,7 +149,7 @@ const AIQueries = () => {
   IDS = handleQuery();
 
   const Query = aiFeatures[aiType].features[subAiType].queries;
-
+  console.log(aiType)
   useEffect(() => {
     if (weight > 0 && height > 0) {
       const heightInMeters = height / 100; // Convert cm to meters
@@ -177,12 +177,12 @@ const AIQueries = () => {
         bmiCategory = "Obesity";
       }
 
-      if (aiType === "sleep-check" || aiType === "stress-check") {
+      if (aiType === "Neurorest" || aiType === "Neurorest") {
         setFormData((prev) => ({
           ...prev,
           bmiCategory: bmiCategory,
         }));
-      } else if (aiType === "gluco-Sense") {
+      } else if (aiType === "Glucosense") {
         setFormData((prev) => ({
           ...prev,
           bmi: bmi,
