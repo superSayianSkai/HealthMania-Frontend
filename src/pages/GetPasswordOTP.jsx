@@ -1,10 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+
 const GetPasswordOTP = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-
   const baseURL = import.meta.env.VITE_BASE_URL;
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,11 +18,10 @@ const GetPasswordOTP = () => {
       return;
     }
 
-
     try {
       const response = await axios.post(
         `${baseURL}/api/v1/auth/get-reset-password-otp`,
-        email
+        { email }
       );
       setSuccess(true);
       console.log(response.data);
@@ -33,7 +32,7 @@ const GetPasswordOTP = () => {
     // Here you would typically call an API to send the OTP
     // For this example, we'll just simulate a successful OTP send
   };
-
+  console.log(email);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-md">
@@ -77,7 +76,9 @@ const GetPasswordOTP = () => {
             className="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
             role="alert"
           >
-            <span className="block sm:inline">Something went wrong.Try again</span>
+            <span className="block sm:inline">
+              Something went wrong.Try again
+            </span>
           </div>
         )}
         {success && (

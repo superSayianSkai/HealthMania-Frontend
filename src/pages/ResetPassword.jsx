@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import axios from "axios";
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -7,7 +7,7 @@ const ResetPassword = () => {
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
@@ -22,9 +22,24 @@ const ResetPassword = () => {
       return;
     }
 
-    // Here you would typically call an API to reset the password
-    // For this example, we'll just simulate a successful reset
-    setSuccess(true);
+    try {
+      const token = new URLSearchParams(window.location.search).get("token"); // Get token from URL
+
+      const response = await axios.post(
+        "https://your-backend.com/api/v1/auth/reset-password",
+        { password, token }
+      );
+
+      if (response.data.success) {
+        setSuccess(true);
+      } else {
+        setError(response.data.message || "Failed to reset password.");
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message || "Something went wrong. Try again."
+      );
+    }
   };
 
   return (

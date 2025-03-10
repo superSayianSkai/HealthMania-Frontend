@@ -13,9 +13,17 @@ const Auth = () => {
   const prevLocation = location.state?.from.pathname || "/";
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { login, signUp, stillLoggedIn, error, errorMessage, googleAuth } =
-    useContext(AuthContext);
+  const {
+    login,
+    signUp,
+    stillLoggedIn,
+    error,
+    errorMessage,
+    googleAuth,
+    normalAuth,
+  } = useContext(AuthContext);
   const [password, setPassword] = useState(false);
+  console.log(loading);
 
   const [isSignInActive, setIsSignInActive] = useState(true);
   const [signUpData, setSignUpData] = useState({
@@ -250,7 +258,7 @@ const Auth = () => {
                   ></i>
                 )}
               </label>
-              {errorMessage && (
+              {errorMessage && normalAuth && (
                 <p className="text-[.7rem] text-red-500 animate-bounce">
                   {errorMessage + "!!!"}
                 </p>
@@ -286,9 +294,28 @@ const Auth = () => {
                   onClick={googleAuth}
                   className="border-[1px] border-gray-500 p-3 rounded-md text-[.8rem] flex justify-center items-center gap-2 font-bold hover:bg-gray-100"
                 >
-                  <img src={google} className="w-[15px] h-[auto]" />
-                  Sign In with google
+                  {loading ? (
+                    <ThreeCircles
+                      visible={true}
+                      height="30"
+                      width="30"
+                      color="ddd"
+                      ariaLabel="three-circles-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    <>
+                      <img src={google} className="w-[15px] h-[auto]" />
+                      Sign In with google
+                    </>
+                  )}
                 </button>
+                {errorMessage && !normalAuth && (
+                  <p className="text-[.7rem] text-red-500 animate-bounce">
+                    {errorMessage + "!!!"}
+                  </p>
+                )}
               </div>
             </div>
             <p className="text-[.8rem] font-bold">
