@@ -1409,18 +1409,8 @@ export const aiFeatures = {
             question: "Which stage of pregnancy are you currently in?",
 
             type: "select",
-            options: [
-              "select",
-              "First trimester",
-              "Second trimester",
-              "Third trimester",
-            ],
-            values: [
-              "select",
-              "firsttrimester",
-              "secondtrimester",
-              "thirdtrimester",
-            ],
+            options: ["select", "First trimester", "Second trimester"],
+            values: ["select", "firsttrimester", "secondtrimester"],
           },
           {
             id: 4,
@@ -1436,20 +1426,16 @@ export const aiFeatures = {
               "moderately active",
 
               "very active",
-
-              "extremely active",
             ],
             values: [
               "select",
-              "sedentary active",
+              "sedentary",
 
-              "lightly active",
+              "light active",
 
               "moderately active",
 
               "very active",
-
-              "extremely active",
             ],
           },
         ],

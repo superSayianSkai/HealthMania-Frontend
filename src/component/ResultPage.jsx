@@ -3,8 +3,6 @@ import { Activity } from "lucide-react";
 
 export default function ResultPage({ AiResponse, subAiType }) {
   const [mounted, setMounted] = useState(false);
-  
-
   console.log(AiResponse);
   useEffect(() => {
     setMounted(true);
