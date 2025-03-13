@@ -162,19 +162,19 @@ const AIQueries = () => {
       const weight4 = 29.9;
       console.log(calculatedBmiCategory);
       if (calculatedBmiCategory < weight1) {
-        bmiCategory = "Under Weight";
+        bmiCategory = "Underweight";
       } else if (
         calculatedBmiCategory >= weight1 &&
         calculatedBmiCategory <= weight2
       ) {
-        bmiCategory = "Normal weight";
+        bmiCategory = "Normal Weight";
       } else if (
         calculatedBmiCategory >= weight3 &&
         calculatedBmiCategory <= weight4
       ) {
-        bmiCategory = "Over Weight";
+        bmiCategory = "Overweight";
       } else {
-        bmiCategory = "Obesity";
+        bmiCategory = "Obese";
       }
 
       if (aiType === "Neurorest" || aiType === "Neurorest") {
