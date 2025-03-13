@@ -3,7 +3,7 @@ import { Activity } from "lucide-react";
 
 export default function ResultPage({ AiResponse, subAiType }) {
   const [mounted, setMounted] = useState(false);
-  AiResponse = AiResponse.toLowerCase();
+  
 
   console.log(AiResponse);
   useEffect(() => {
