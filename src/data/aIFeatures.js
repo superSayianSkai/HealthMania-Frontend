@@ -215,8 +215,8 @@ export const aiFeatures = {
           {
             id: 0,
             question: "What's your gender?",
-            options: ["male", "female"],
-            values: ["male", "female"],
+            options: ["Male", "Female"],
+            values: ["Male", "Female"],
             type: "option",
           },
           {
@@ -642,8 +642,8 @@ export const aiFeatures = {
           {
             id: 0,
             question: "What's your gender?",
-            options: ["male", "female"],
-            values: ["male", "female"],
+            options: ["Male", "Female"],
+            values: ["Male", "Female"],
             type: "option",
           },
           {
@@ -1440,6 +1440,7 @@ export const aiFeatures = {
               "extremely active",
             ],
             values: [
+              "select",
               "sedentary active",
 
               "lightly active",
